@@ -12,27 +12,94 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            spacing: 50,
+          child: ListView(
+          padding: EdgeInsets.only(top: 30),
             children: [
-              Row(
-                spacing: 100,
-                children: [
-                  Text("Sudish"),
-                  Text("Sudish"),
-                ],
+
+              Container(
+                margin: EdgeInsets.all(20),
+                height: 250,
+                child:Row(
+                  spacing: 100,
+                  children: [
+                    Text("Sudish"),
+                    Text("Sudish"),
+                  ],
+                ) ,
+                decoration: BoxDecoration(color: Colors.black12, borderRadius: BorderRadius.circular(30)),
               ),
-              Row(
+              Container(
+                margin: EdgeInsets.all(20),
+                height: 250,
+                child:Row(
+                  spacing: 100,
+                  children: [
+                    Text("Sudish"),
+                    Text("Sudish"),
+                  ],
+                ) ,
+                decoration: BoxDecoration(color: Colors.black12, borderRadius: BorderRadius.circular(30)),
+              ),
+              Container(
+                margin: EdgeInsets.all(20),
+                height: 250,
+                child:Row(
+                  spacing: 100,
+                  children: [
+                    Text("Sudish"),
+                    Text("Sudish"),
+                  ],
+                ) ,
+                decoration: BoxDecoration(color: Colors.black12, borderRadius: BorderRadius.circular(30)),
+              ),
+              Container(
+                margin: EdgeInsets.all(20),
+                height: 250,
+                child:Row(
+                  spacing: 100,
+                  children: [
+                    Text("Sudish"),
+                    Text("Sudish"),
+                  ],
+                ) ,
+                decoration: BoxDecoration(color: Colors.black12, borderRadius: BorderRadius.circular(30)),
+              ),
+              Container(
+                margin: EdgeInsets.all(20),
+                height: 250,
+                child:Row(
+                  spacing: 100,
+                  children: [
+                    Text("Sudish"),
+                    Text("Sudish"),
+                  ],
+                ) ,
+                decoration: BoxDecoration(color: Colors.black12, borderRadius: BorderRadius.circular(30)),
+              ),
+              SizedBox(child: Icon(Icons.home),height: 100, width: 100,),
+              Wrap(
                 spacing: 100,
 
                 children: [
                 Text("Sudish"),
                 Text("Sudish"),
-              ],),
+                  Text("Sudish"),
+                  Text("Sudish"),
+                  Text("Sudish"),
+                  Text("Sudish"),
+                  Text("Sudish"),
+                  Text("Sudish"),
 
+                  Text("Sudish"),
+                  Text("Sudish"),Text("Sudish"),
+                  Text("Sudish"),
+
+
+
+              ],),
               Text("Sudish"),
               Text("Sudish"),
               Text("Sudish"),
