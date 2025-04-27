@@ -27,61 +27,68 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  var isSwitchOn = false;
-  TextEditingController nameController = TextEditingController();
-  String enteredName = "";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: Column(
+
           children: [
-            Switch(value: isSwitchOn, onChanged: (value) {
-              isSwitchOn = value;
-              setState(() {
-
-              });
-            },),
-            SizedBox(child: Icon(Icons.home),height: 100, width: 100,),
-            Wrap(
-              spacing: 100,
-
-              children: [
-
-                Text("Sudish"),
-                Text("Sudish"),
-                Text("Sudish"),
-                Text("Sudish"),
-                Text("Sudish"),
-                Text("Sudish"),
-                Text("Sudish"),
-
-                Text("Sudish"),
-                Text("Sudish"),Text("Sudish"),
-                Text("Sudish"),
-
-
-
-              ],),
-            Text("Sudish"),
-            Text("Sudish"),
-            Text("Sudish"),
-            Text(enteredName, style: TextStyle(fontSize: 30),),
-            Icon(Icons.person),
-            TextField(controller: nameController, decoration: InputDecoration(hintText: "Enter name"),),
-            // Image.network("src"),
             ElevatedButton(onPressed: () {
-              var name = nameController.text.toString();
-              enteredName = name;
-              setState(() {
+              showDialog(context: context, builder: (context) {
+                return AlertDialog(
+                  title: Text("Delete Account"),
+                  content: Text("Are you sure that you want to delete your account"),
+                  actions: [
 
-              });
-              Fluttertoast.showToast(msg: "You have entered $name");
-            }, child: Text("Click me"))
+                    ElevatedButton(onPressed: () {
+                      Navigator.pop(context);
+
+                    }, child: Text("No")),
+
+                    ElevatedButton(onPressed: () {
+                      Fluttertoast.showToast(msg: "Account deleted successfully");
+                      Navigator.pop(context);
+                    }, child: Text("Yes")),
+                  ],
+                );
+              },);
+            }, child: Text("Delete Account")),
+            ElevatedButton(onPressed: () {
+              showDialog(context: context, builder: (context) {
+                return Dialog(
+                  shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(20)),
+                  backgroundColor: Colors.white,
+                  child:Column(
+                    children: [
+                      Row(
+                        children: [
+                          Icon(Icons.logout),
+                          Text("LogOut"),
+                        ],
+                      ),
+                      Text("Are you sure that you want to logOut?"),
+                      Row(children: [
+                        ElevatedButton(onPressed: () {
+                          Navigator.pop(context);
+                        }, child: Text("No")),
+                        ElevatedButton(onPressed: () {
+                          Fluttertoast.showToast(msg: "Logout successfully");
+                          Navigator.pop(context);
+                        }, child: Text("Yes"))
+                      ],)
+                    ],
+                  ) ,
+                );
+              },);
+            }, child: Text("LogOut"))
 
           ],
         ),
       ),
     );
   }
+
+
 }
