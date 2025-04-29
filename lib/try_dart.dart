@@ -220,8 +220,28 @@
 //
 //    }
 
+void main(){
+   // getName().then((name) {
+   //   // print(name);
+   // },);
+   startCounter1().listen((event) {
+      print(event);
+   },);
+
+}
 
 
+Future<String>  getName()async{
+ var name = await Future.delayed(Duration(seconds: 5), () {
+    return "Sudish";
+  },);
+ print(name);
+print("Not wait");
+ return name;
+}
+Stream<int> startCounter1(){
+  return Stream.periodic(Duration(seconds: 1),(computationCount) => computationCount +5,);
+}
 
 
 
