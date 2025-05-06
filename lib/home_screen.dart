@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -9,48 +9,49 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
+  bool isChecked = false;
+  String selectedGender = "Male";
   @override
   Widget build(BuildContext context) {
-    var formKey = GlobalKey<FormState>();
-    var nameController = TextEditingController();
-    var emailController = TextEditingController();
     return Scaffold(
-      body: Container(
-        child: Form(
-            key: formKey,
-            child: Column(
-              children: [
-                TextFormField(
-                  controller: nameController,
-                  decoration: InputDecoration(hintText: "Enter name"),validator: (value) {
-                  if(value == null ||  value.isEmpty){
-                    return "Enter name";
-                  }
-                  return null;
-                },),
-                TextFormField(
-                  controller: emailController,
-                  decoration: InputDecoration(hintText: "Enter email"),validator: (value) {
-                  if(value == null ||  value.isEmpty){
-                    return "Enter email";
-                  }
-                  return null;
-                },),
+      body: Column(
+        children: [
+          Checkbox(value: isChecked, onChanged: (value) {
+            if(value != null){
+              isChecked = value;
+              setState(() {});
+            }
 
-                ElevatedButton(onPressed: () {
-                  if(formKey.currentState!.validate()){
-                    Fluttertoast.showToast(msg: "User name is ${nameController.text}");
-                  }
-                }, child: Text("Submit"))
-              ],
-            )),),
+          },),
+          Radio<String>(value: "Male", groupValue: selectedGender, onChanged: (value) {
+            selectedGender = value!;
+            setState(() {});
+          },),
+          Radio<String>(value: "Female", groupValue: selectedGender, onChanged: (value) {
+            selectedGender = value!;
+            setState(() {});
+          },),
+          Row(
+            children: [
+              Text("Others"),
+              Radio<String>( value: "Others", groupValue: selectedGender, onChanged: (value) {
+                selectedGender = value!;
+                setState(() {});
+              },),
+            ],
+          ),
+
+          RatingBar.builder(
+            minRating: 1,
+            initialRating: 4,
+            itemCount: 5,
+            itemBuilder: (context, index) {
+            return Icon(Icons.star, color: Colors.amber,);
+          }, onRatingUpdate: (value) {
+              print(value);
+          },)
+        ],
+      ),
     );
   }
 }
-
-// GlobalKey | Access widget from outside (like form validation)
-// LocalKey | Base class (rare direct use)
-// ValueKey | Identify widget based on some value (like ID)
-// UniqueKey | Force widget to always be recreated uniquely
-// ObjectKey | Identify widget based on an object
