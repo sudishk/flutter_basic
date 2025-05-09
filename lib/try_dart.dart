@@ -220,31 +220,41 @@
 //
 //    }
 
-void main(){
-   // getName().then((name) {
-   //   // print(name);
-   // },);
-   startCounter1().listen((event) {
-      print(event);
-   },);
+// void main(){
+//    // getName().then((name) {
+//    //   // print(name);
+//    // },);
+//    startCounter1().listen((event) {
+//       print(event);
+//    },);
+//
+// }
+//
+//
+// Future<String>  getName()async{
+//  var name = await Future.delayed(Duration(seconds: 5), () {
+//     return "Sudish";
+//   },);
+//  print(name);
+// print("Not wait");
+//  return name;
+// }
+// Stream<int> startCounter1(){
+//   return Stream.periodic(Duration(seconds: 1),(computationCount) => computationCount +5,);
+// }
 
+
+void main() {
+  var list = [1, 16, 49, 4, 5];
+  for (int index = 0; index < list.length; index++) {
+    for (int index1 = 0; index1 < index; index1++) {
+      var value2 = list[index1];
+      if (list[index] < value2) {
+        list[index1] = list[index];
+        list[index] = value2;
+      }
+    }
+  }
+  print(list[1]);// 2nd min
+  print(list[list.length-2]);// 2nd max
 }
-
-
-Future<String>  getName()async{
- var name = await Future.delayed(Duration(seconds: 5), () {
-    return "Sudish";
-  },);
- print(name);
-print("Not wait");
- return name;
-}
-Stream<int> startCounter1(){
-  return Stream.periodic(Duration(seconds: 1),(computationCount) => computationCount +5,);
-}
-
-
-
-
-
-
