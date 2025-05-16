@@ -14,59 +14,18 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.blueGrey,
-          title: Text("Menu"),
-          actions: [
-            PopupMenuButton(
-              itemBuilder: (context) => [
-              PopupMenuItem(child: Text("Cart"), value: "Cart",),
-              PopupMenuItem(child: Text("Orders"), value: "Orders",),
-              PopupMenuItem(child: Text("WishList"), value: "WishList",),
-            ],
-            onSelected: (value) {
-                // Navigator.pop
-                print(value);
-
-            },
-            )
-          ],
-
-
-        ),
-        body: Column(
-          children: [
-            ElevatedButton(onPressed: () {
-              showMenu(
-                  position: RelativeRect.fromLTRB(100, 150, 0, 0),
-                  context: context, items: [
-                PopupMenuItem(child: Text("Add"), value: "Add",),
-                PopupMenuItem(child: Text("Delete"), value: "Delete",),
-              ]).then((value) {
-                print(value);
-              },);
-            }, child: Text("Show context menu")),
-
-            ListView.builder(
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              itemCount: 10,
-              itemBuilder: (context, index) {
-              return ListTile(trailing: PopupMenuButton(
-                itemBuilder: (context) => [
-                  PopupMenuItem(child: Text("Update"), value: "Update",),
-                  PopupMenuItem(child: Text("Delete"), value: "Delete",),
-                ],
-                onSelected: (value) {
-                  // Navigator.pop
-                  print(value);
-
-                },
-              ), title: Text("Item $index"),);
-            },)
-
-          ],
-        ),
+        body: ListView.separated(
+          separatorBuilder: (context, index) {
+            return Container(height: 4, color: Colors.red,);
+          },
+          itemCount: 10,
+          itemBuilder: (context, index) {
+          return ListTile(
+            title: Text("Title ${index+1}"),
+            subtitle: Text("Sub title of ${index+1} "),
+            trailing: Icon(Icons.add),
+          );
+        },),
       ),
     );
   }
