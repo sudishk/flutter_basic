@@ -12,45 +12,62 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var formKey = GlobalKey<FormState>();
-    var nameController = TextEditingController();
-    var emailController = TextEditingController();
-    return Scaffold(
-      body: Container(
-        child: Form(
-            key: formKey,
-            child: Column(
-              children: [
-                TextFormField(
-                  controller: nameController,
-                  decoration: InputDecoration(hintText: "Enter name"),validator: (value) {
-                  if(value == null ||  value.isEmpty){
-                    return "Enter name";
-                  }
-                  return null;
-                },),
-                TextFormField(
-                  controller: emailController,
-                  decoration: InputDecoration(hintText: "Enter email"),validator: (value) {
-                  if(value == null ||  value.isEmpty){
-                    return "Enter email";
-                  }
-                  return null;
-                },),
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.blueGrey,
+          title: Text("Menu"),
+          actions: [
+            PopupMenuButton(
+              itemBuilder: (context) => [
+              PopupMenuItem(child: Text("Cart"), value: "Cart",),
+              PopupMenuItem(child: Text("Orders"), value: "Orders",),
+              PopupMenuItem(child: Text("WishList"), value: "WishList",),
+            ],
+            onSelected: (value) {
+                // Navigator.pop
+                print(value);
 
-                ElevatedButton(onPressed: () {
-                  if(formKey.currentState!.validate()){
-                    Fluttertoast.showToast(msg: "User name is ${nameController.text}");
-                  }
-                }, child: Text("Submit"))
-              ],
-            )),),
+            },
+            )
+          ],
+
+
+        ),
+        body: Column(
+          children: [
+            ElevatedButton(onPressed: () {
+              showMenu(
+                  position: RelativeRect.fromLTRB(100, 150, 0, 0),
+                  context: context, items: [
+                PopupMenuItem(child: Text("Add"), value: "Add",),
+                PopupMenuItem(child: Text("Delete"), value: "Delete",),
+              ]).then((value) {
+                print(value);
+              },);
+            }, child: Text("Show context menu")),
+
+            ListView.builder(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: 10,
+              itemBuilder: (context, index) {
+              return ListTile(trailing: PopupMenuButton(
+                itemBuilder: (context) => [
+                  PopupMenuItem(child: Text("Update"), value: "Update",),
+                  PopupMenuItem(child: Text("Delete"), value: "Delete",),
+                ],
+                onSelected: (value) {
+                  // Navigator.pop
+                  print(value);
+
+                },
+              ), title: Text("Item $index"),);
+            },)
+
+          ],
+        ),
+      ),
     );
   }
 }
-
-// GlobalKey | Access widget from outside (like form validation)
-// LocalKey | Base class (rare direct use)
-// ValueKey | Identify widget based on some value (like ID)
-// UniqueKey | Force widget to always be recreated uniquely
-// ObjectKey | Identify widget based on an object
