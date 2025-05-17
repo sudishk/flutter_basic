@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_basic/product_details.dart';
 
 class ProductScreen extends StatefulWidget {
-  const ProductScreen({super.key});
+  final String name;
+  final int? age;
+
+  const ProductScreen({super.key, required this.name, this.age});
 
   @override
   State<ProductScreen> createState() => _ProductScreenState();
@@ -15,13 +17,14 @@ class _ProductScreenState extends State<ProductScreen> {
       child: Scaffold(
         body: Column(
           children: [
+            Text("${widget.name}"),
+            Text("${widget.age}"),
             ElevatedButton(onPressed:  () {
-              Navigator.pop(context);
+              Navigator.pop(context, "Ram");
             }, child: Text("Go Back")),
       
             Container(child: InkWell(
               onTap: () {
-                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => ProductDetails(),),(route) => false,);
               },
                 child: Center(child: Text("Product Screen")))
             ),
