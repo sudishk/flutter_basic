@@ -220,31 +220,65 @@
 //
 //    }
 
-void main(){
-   // getName().then((name) {
-   //   // print(name);
-   // },);
-   startCounter1().listen((event) {
-      print(event);
-   },);
-
-}
-
-
-Future<String>  getName()async{
- var name = await Future.delayed(Duration(seconds: 5), () {
-    return "Sudish";
-  },);
- print(name);
-print("Not wait");
- return name;
-}
-Stream<int> startCounter1(){
-  return Stream.periodic(Duration(seconds: 1),(computationCount) => computationCount +5,);
-}
+// void main(){
+//    // getName().then((name) {
+//    //   // print(name);
+//    // },);
+//    startCounter1().listen((event) {
+//       print(event);
+//    },);
+//
+// }
 
 
+// Future<String>  getName()async{
+//  var name = await Future.delayed(Duration(seconds: 5), () {
+//     return "Sudish";
+//   },);
+//  print(name);
+// print("Not wait");
+//  return name;
+// }
+// Stream<int> startCounter1(){
+//   return Stream.periodic(Duration(seconds: 1),(computationCount) => computationCount +5,);
+// }
 
 
-
+// void main()async{
+//
+//  var data = await getData().then((value) {
+//     print(value);
+//   },);
+//   printName();
+// }
+//
+// Future<String> getData()async{
+//   Future.delayed(Duration(seconds: 1), () {
+//     print("First Data received");
+//   },);
+//
+//   Future.delayed(Duration(seconds: 2), () {
+//     print("Second Data received");
+//   },);
+//
+//   Future.delayed(Duration(seconds: 3), () {
+//     print("Third Data received");
+//   },);
+//
+//  return "Task Done";
+// }
+//
+// printName()async{
+//    Future.delayed(Duration(seconds: 1), () {
+//     print("First Data received");
+//   },);
+//
+//    Future.delayed(Duration(seconds: 2), () {
+//     print("Second Data received");
+//   },);
+//
+//    Future.delayed(Duration(seconds: 3), () {
+//     print("Third Data received");
+//   },);
+// }
 
