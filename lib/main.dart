@@ -4,8 +4,14 @@ import 'package:flutter_basic/home_page_provider.dart';
 import 'package:provider/provider.dart';
 
 void main(){
-  runApp(MyApp());
-
+  runApp(
+      MultiProvider(providers: [
+        ChangeNotifierProvider(create: (context) => HomePageProvider(),),
+        StreamProvider(create: (context) =>HomePageProvider.getCounter(), initialData: 0),
+        FutureProvider(create: (context) => HomePageProvider.fetchName(), initialData: "Data Loading")
+      ],
+      child:MyApp() ,)
+      );
 }
 
 class MyApp extends StatelessWidget {
@@ -14,40 +20,33 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: HomePage() ,
+       home: HomePage(),
     );
   }
 }
 
-
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: ChangeNotifierProvider(
-        create: (context) => HomePageProvider() ,
-        builder: (context, child) {
-          var provider = context.watch<HomePageProvider>();
-        return  Column(
-            children: [
-              Text(provider.data),
 
-              ElevatedButton(onPressed: () {
-                provider.changeData();
-              }, child: Text("Change Data"))
-            ],
-          );
-        },
+    var name = Provider.of<String>(context);
+    var counter = Provider.of<int>(context);
+    return SafeArea(child: Scaffold(
+      body: Column(
+        children: [
+          Text(name),
+          Text("$counter"),
+          Consumer<HomePageProvider>(builder: (context, value, child) {
+            return Text("${value.age}");
+          },),
 
+          ElevatedButton(onPressed: () {
+            Provider.of<HomePageProvider>(context, listen: false).changeAge();
+          }, child: Text("Change Age"))
+        ],
       ),
-    );
+    ));
   }
 }

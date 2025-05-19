@@ -1,10 +1,19 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
 class HomePageProvider extends ChangeNotifier{
-  var data = "";
+ var age = 10;
 
-  void changeData(){
-    data = "Data changed";
-    notifyListeners();
-  }
+ void changeAge(){
+  age =25;
+  notifyListeners();
+ }
+ static Future<String> fetchName()async{
+  await Future.delayed(Duration(seconds:  2));
+  return "Sudish kumar";
+ }
+
+ static Stream<int> getCounter(){
+  return Stream.periodic(Duration(seconds: 3), (computationCount) => computationCount+1,);
+ }
 }
+
