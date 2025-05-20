@@ -37,6 +37,7 @@ class HomePage extends StatelessWidget {
       body: Column(
         children: [
           Text(name),
+          Image.asset("assets/small_icon.jpg"),
           Text("$counter"),
           Consumer<HomePageProvider>(builder: (context, value, child) {
             return Text("${value.age}");
