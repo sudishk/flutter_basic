@@ -48,21 +48,16 @@ class _HomePageState extends State<HomePage> {
                 //
               }
 
-            }, child: Text("update ToDo")),
+            }, child: Text("Create ToDo")),
             SizedBox(
               height: 400,
               child: ListView.builder(
                 itemCount: todoList.length,
                 itemBuilder: (context, index) {
                   var todo = todoList[index];
-                  return InkWell(
-                    onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => TodoDetails(id: "${todo["id"]}"),));
-                    },
-                    child: ListTile(
-                      title: Text(todo["title"]),
-                      subtitle: Text("${todo["completed"]}"),
-                    ),
+                  return ListTile(
+                    title: Text(todo["title"]),
+                    subtitle: Text("${todo["completed"]}"),
                   );
                 },
               ),
