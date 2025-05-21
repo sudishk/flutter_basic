@@ -10,9 +10,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<dynamic> todoList = [];
-  TextEditingController userIdController= TextEditingController();
-  TextEditingController titleController= TextEditingController();
-
+  TextEditingController userIdController = TextEditingController();
+  TextEditingController titleController  = TextEditingController();
   @override
   void initState() {
     ApiServices.fetchTodoList().then((value) {
@@ -32,18 +31,23 @@ class _HomePageState extends State<HomePage> {
         body: Column(
           children: [
 
-            TextField(controller: userIdController,decoration: InputDecoration(hintText: "Enter user id", border: OutlineInputBorder(borderRadius: BorderRadius.circular(15))),),
-            TextField(controller: titleController,decoration: InputDecoration(hintText: "Enter title", border: OutlineInputBorder(borderRadius: BorderRadius.circular(15))),),
-            ElevatedButton(onPressed: () async{
-              var uid = int.parse(userIdController.text);
-              var bodyMap = {
-                "userId": userIdController.text,
-                "title":titleController.text,
+            TextField(controller: userIdController , decoration:  InputDecoration(hintText: "Enter userId"),),
+            TextField(controller: titleController , decoration:  InputDecoration(hintText: "Enter title"),),
+            ElevatedButton(onPressed: ()async {
+
+              var requestBody =  {
+                "userId": userIdController.text.toString(),
+                "title": titleController.text.toString(),
                 "completed": "false"
               };
-             var result =await ApiServices.createToDo(bodyMap);
-             print(result);
-            }, child: Text("Create Todo")),
+              var apiResponse =await ApiServices.createToDo(requestBody);
+
+              if(apiResponse != null){
+                print(apiResponse);
+                //
+              }
+
+            }, child: Text("Create ToDo")),
             SizedBox(
               height: 400,
               child: ListView.builder(
