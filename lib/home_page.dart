@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/api_services.dart';
-import 'package:flutter_basic/todo_details.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -55,14 +54,9 @@ class _HomePageState extends State<HomePage> {
                 itemCount: todoList.length,
                 itemBuilder: (context, index) {
                   var todo = todoList[index];
-                  return InkWell(
-                    onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => TodoDetails(id: "${todo["id"]}"),));
-                    },
-                    child: ListTile(
-                      title: Text(todo["title"]),
-                      subtitle: Text("${todo["completed"]}"),
-                    ),
+                  return ListTile(
+                    title: Text(todo["title"]),
+                    subtitle: Text("${todo["completed"]}"),
                   );
                 },
               ),
