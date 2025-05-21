@@ -36,6 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             ElevatedButton(onPressed: () {
+              // alert dialog start
               showDialog(context: context, builder: (context) {
                 return AlertDialog(
                   title: Text("Delete Account"),
@@ -54,8 +55,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 );
               },);
+            // alert dialog end
             }, child: Text("Delete Account")),
+
             ElevatedButton(onPressed: () {
+              // custom alert dialog start
               showDialog(context: context, builder: (context) {
                 return Dialog(
                   shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(20)),
@@ -82,6 +86,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   ) ,
                 );
               },);
+
+              // custom alert dialog end
             }, child: Text("LogOut"))
 
           ],
