@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/api_services.dart';
+import 'package:flutter_basic/todo_details.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -38,25 +39,30 @@ class _HomePageState extends State<HomePage> {
               var requestBody =  {
                 "userId": userIdController.text.toString(),
                 "title": titleController.text.toString(),
-                "completed": "false"
+                "completed": "true"
               };
-              var apiResponse =await ApiServices.createToDo(requestBody);
+              var apiResponse =await ApiServices.createToDo( requestBody );
 
               if(apiResponse != null){
                 print(apiResponse);
                 //
               }
 
-            }, child: Text("Create ToDo")),
+            }, child: Text("update ToDo")),
             SizedBox(
               height: 400,
               child: ListView.builder(
                 itemCount: todoList.length,
                 itemBuilder: (context, index) {
                   var todo = todoList[index];
-                  return ListTile(
-                    title: Text(todo["title"]),
-                    subtitle: Text("${todo["completed"]}"),
+                  return InkWell(
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => TodoDetails(id: "${todo["id"]}"),));
+                    },
+                    child: ListTile(
+                      title: Text(todo["title"]),
+                      subtitle: Text("${todo["completed"]}"),
+                    ),
                   );
                 },
               ),

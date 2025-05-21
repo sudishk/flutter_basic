@@ -30,4 +30,30 @@ class ApiServices {
       print(e);
     }
   }
+
+  static Future<dynamic> updateAllToFields( Map<String, dynamic> requestBody , String toDoId,) async{
+    try {
+      var response = await http.put(
+          Uri.parse("https://jsonplaceholder.typicode.com/todos/$toDoId"));
+      if (response.statusCode == 200) {
+        var jsonRes = jsonDecode(response.body);
+        return jsonRes;
+      }
+    }catch (error){
+      print(error);
+    }
+  }
+
+  static Future<dynamic> patchToDo( Map<String, dynamic> requestBody , String toDoId,) async{
+    try {
+      var response = await http.patch(
+          Uri.parse("https://jsonplaceholder.typicode.com/todos/$toDoId"));
+      if (response.statusCode == 200) {
+        var jsonRes = jsonDecode(response.body);
+        return jsonRes;
+      }
+    }catch (error){
+      print(error);
+    }
+  }
 }
