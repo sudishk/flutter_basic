@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 class ApiServices{
  static Future<List<dynamic>?> fetchTodoList()async {
-    var response =await http.get(Uri.parse("https://jsonplaceholder.typicode.com/todos"));
+    var response =await http.get(Uri.parse("https://jsonplaceholder.typicode.com/todos"),);
     if(response.statusCode == 200){
       var resBody = jsonDecode(response.body);
       print(resBody);
@@ -12,4 +12,16 @@ class ApiServices{
       print("Api calling failed");
     }
   }
+
+ static Future<dynamic> createToDo(Map<String, dynamic> body)async {
+   var response =await http.post(Uri.parse("https://jsonplaceholder.typicode.com/todos"), body: body,);
+   if(response.statusCode == 201){
+     var resBody = jsonDecode(response.body);
+     print(resBody);
+     return resBody;
+   }else{
+     print("Api calling failed");
+   }
+ }
+
 }
