@@ -1,5 +1,5 @@
+
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -9,45 +9,54 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
+  var nameController =TextEditingController();
+  var emailController =TextEditingController();
+  var formkey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    var formKey = GlobalKey<FormState>();
-    var nameController = TextEditingController();
-    var emailController = TextEditingController();
     return Scaffold(
-      body: Container(
-        child: Form(
-            key: formKey,
-            child: Column(
-              children: [
-                TextFormField(
-                  controller: nameController,
-                  decoration: InputDecoration(hintText: "Enter name"),validator: (value) {
-                  if(value == null ||  value.isEmpty){
-                    return "Enter name";
-                  }
-                  return null;
-                },),
-                TextFormField(
-                  controller: emailController,
-                  decoration: InputDecoration(hintText: "Enter email"),validator: (value) {
-                  if(value == null ||  value.isEmpty){
-                    return "Enter email";
-                  }
-                  return null;
-                },),
+      body: Column(
+        children: [
+          Form(
+              key: formkey,
+              child: Column(
+            children: [
+              TextFormField(controller:nameController , decoration: InputDecoration(hintText: "Enter name"), validator: (value) {
+                if(value!.isEmpty){
+                  return "Enter name";
+                }
+              },),
 
-                ElevatedButton(onPressed: () {
-                  if(formKey.currentState!.validate()){
-                    Fluttertoast.showToast(msg: "User name is ${nameController.text}");
-                  }
-                }, child: Text("Submit"))
-              ],
-            )),),
+              TextFormField(controller:emailController , decoration: InputDecoration(hintText: "Enter email"), validator: (value) {
+                if(value!.isEmpty){
+                  return "Enter email";K
+                }else if(!value.contains("@gmail.com")){
+                  return "Enter valid email";
+                }
+                return null;
+              },),
+
+              ElevatedButton(onPressed: () {
+                if(formkey.currentState!.validate()){
+                  // send to home page
+                }
+              }, child: Text("Submit"))
+            ],
+          ))
+        ],
+      ),
     );
   }
 }
+
+
+
+
+
+
+
+
+
 
 // GlobalKey | Access widget from outside (like form validation)
 // LocalKey | Base class (rare direct use)
