@@ -8,40 +8,57 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  var nameList = [
+    "Harsh",
+    "Sneha",
+    "Rohit",
+    "Deepak",
+    "Rohit",
+    "Deepak",
+    "Rohit",
+    "Deepak",
+  ];
+
+  var nameController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: DefaultTabController(length: 3, child: Scaffold(
-        appBar: AppBar(
-          bottom: TabBar(tabs: [
-            Tab(child: Text("Tab1")),
-            Tab(child: Text("Tab12")),
-            Tab(child: Text("Tab2")),
-          ]),
+    return SafeArea(
+      child: Scaffold(
+        // body: ListView(
+        //   children: [
+        //     Container(color: Colors.blueGrey, height: 300,),
+        //     Container(color: Colors.redAccent, height: 100,)
+        //   ],
+        // ),
+        // body: ListView.builder(
+        //   itemCount: 30,
+        //   itemBuilder: (context, index){
+        //     var name = "Name $index";
+        //     return Text(name);
+        //   },
+        // ),
+        body: Column(
+          children: [
+            TextField(controller: nameController),
+            Container(
+              height: 200,
+              child: ListView.separated(
+                scrollDirection: Axis.horizontal,
+                physics: BouncingScrollPhysics(),
+                separatorBuilder: (context, index) {
+                  return Container(color: Colors.green, height: 100, width: 200,);
+                },
+                itemCount: nameList.length,
+                itemBuilder: (context, index) {
+                  var name = nameList[index];
+                  return Text(name);
+                },
+              ),
+            ),
+          ],
         ),
-        body: TabBarView(children: [
-          RequestedBooking(),
-          Container(color: Colors.pink,),
-          Container(color: Colors.yellow,),
-
-        ]),
-      )),
-    );
-  }
-}
-
-class RequestedBooking extends StatefulWidget {
-  const RequestedBooking({super.key});
-
-  @override
-  State<RequestedBooking> createState() => _RequestedBookingState();
-}
-
-class _RequestedBookingState extends State<RequestedBooking> {
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder(
-
+      ),
     );
   }
 }
