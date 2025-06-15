@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_basic/home_page_provider.dart';
+import 'package:provider/provider.dart';
 
 void main(){
   runApp(MyApp());
-}
 
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -12,41 +14,39 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        body: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            spacing: 50,
+      home: HomePage() ,
+    );
+  }
+}
+
+
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: ChangeNotifierProvider(
+        create: (context) => HomePageProvider() ,
+        builder: (context, child) {
+          var provider = context.watch<HomePageProvider>();
+        return  Column(
             children: [
-              Row(
-                spacing: 100,
-                children: [
-                  Text("Sudish"),
-                  Text("Sudish"),
-                ],
-              ),
-              Row(
-                spacing: 100,
+              Text(provider.data),
 
-                children: [
-                Text("Sudish"),
-                Text("Sudish"),
-              ],),
-
-              Text("Sudish"),
-              Text("Sudish"),
-              Text("Sudish"),
-              Text("Sudish"),
-              Icon(Icons.person),
-              TextField(decoration: InputDecoration(hintText: "Enter name"),),
-              // Image.network("src"),
               ElevatedButton(onPressed: () {
-
-              }, child: Text("Click me"))
-
+                provider.changeData();
+              }, child: Text("Change Data"))
             ],
-          ),
-        ),
+          );
+        },
+
       ),
     );
   }
