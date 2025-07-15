@@ -1,11 +1,14 @@
 # flutter_basic
 
-This repository contains code for basic Flutter widgets and their usage, as well as code examples inspired by or adapted from YouTube video tutorials. It is designed to help beginners and those new to Flutter understand how to use core Flutter widgets and build simple apps.
+This project contains the code of a Flutter tutorial from basic to advanced, step by step.
+
+This repository contains code for basic Flutter widgets and their usage, as well as code examples inspired by or adapted from YouTube video tutorials. It is designed to help beginners and those new to Flutter learn by example, progressing from basic to advanced concepts.
 
 ## Features
 
-- Examples of basic Flutter widgets
+- Examples of basic and advanced Flutter widgets
 - Reference code for YouTube tutorials
+- Step-by-step progression from basics to advanced topics
 - Cross-platform setup with files for Linux and Windows builds
 - Organized project structure for easy navigation
 
@@ -48,7 +51,7 @@ flutter pub get
 
 ## Contribution
 
-Pull requests are welcome! itory chapter to contain the code for basic Flutter widgets and their usage, as well as code examples
+Pull requests are welcome! You can feel free to contribute code examples, improvements, or additional tutorials.
 
 ## License
 
