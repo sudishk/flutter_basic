@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:video_player/video_player.dart';
 
 void main(){
   runApp(MyApp());
@@ -29,7 +30,10 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
 
-  XFile? image;
+  List<XFile>? image;
+  XFile? video;
+   VideoPlayerController? _controller;
+
   void checkPermission(ImageSource source)async{
     final ImagePicker picker = ImagePicker();
 
@@ -42,9 +46,12 @@ class _HomeScreenState extends State<HomeScreen> {
     }
 
     if(source == ImageSource.gallery && galleryPermission){
-      image =await picker.pickImage(source: ImageSource.gallery);
+      image =await picker.pickMultiImage();
     }else {
-      image =await picker.pickImage(source: ImageSource.camera);
+     video =await picker.pickVideo(source: ImageSource.camera);
+     _controller = VideoPlayerController.file(File(video!.path));
+    await _controller?.initialize();
+    _controller?.play();
 
     }
     setState(() {
@@ -53,6 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   }
 
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -60,13 +68,26 @@ class _HomeScreenState extends State<HomeScreen> {
         body: Column(
           children: [
 
-            image != null? Image.file(File(image!.path)):Icon(Icons.browse_gallery),
+            image != null? SizedBox(
+              height: 300,
+              child: ListView.builder(
+                itemCount: image!.length,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) {
+                var img = image![index];
+                return Image.file(File(img.path));
+              },),
+            ):Icon(Icons.browse_gallery),
+            SizedBox(
+              height: 150,
+              child: video!=null ? VideoPlayer(_controller!): Icon(CupertinoIcons.video_camera) ,
+            ),
             Row(
               children: [
                 ElevatedButton(onPressed: () {
 
                   checkPermission(ImageSource.camera);
-                }, child: Text("Camera")),
+                }, child: Text("video")),
                 ElevatedButton(onPressed: () {
                   checkPermission(ImageSource.gallery);
                 }, child: Text("Gallery"))
