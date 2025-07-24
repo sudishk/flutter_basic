@@ -9,49 +9,68 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  var nameController =TextEditingController();
-  var emailController =TextEditingController();
-  var formkey = GlobalKey<FormState>();
+  var nameController = TextEditingController();
+  var emailController = TextEditingController();
+  var formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
-      body: Column(
-        children: [
-          Form(
-              key: formkey,
-              child: Column(
-            children: [
-              TextFormField(controller:nameController , decoration: InputDecoration(hintText: "Enter name"), validator: (value) {
-                if(value!.isEmpty){
-                  return "Enter name";
+      body: Form(
+        key: formKey,
+        child: Column(
+          children: [
+            TextFormField(controller: nameController, decoration: InputDecoration(hint: Text("Enter name")),validator: (value) {
+              if(value!.isEmpty  ){
+                var name ="please enter name".split("");
+                var firstLetter = name[0].toUpperCase();
+                var capitlizeName = "$firstLetter";
+                for(int i=1; i<= name.length-1; i++){
+                  capitlizeName = capitlizeName + name[i];
                 }
-              },),
+                return capitlizeName;
+              }
+            },),  TextFormField(controller: emailController, decoration: InputDecoration(hint: Text("Enter name")),validator: (value) {
+               bool emailValid =
+              RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                  .hasMatch(value!);
 
-              TextFormField(controller:emailController , decoration: InputDecoration(hintText: "Enter email"), validator: (value) {
-                if(value!.isEmpty){
-                  return "Enter email";K
-                }else if(!value.contains("@gmail.com")){
-                  return "Enter valid email";
-                }
-                return null;
-              },),
+              if(!emailValid  ){
 
-              ElevatedButton(onPressed: () {
-                if(formkey.currentState!.validate()){
-                  // send to home page
-                }
-              }, child: Text("Submit"))
-            ],
-          ))
-        ],
+                return "Please enter valid email";
+              }
+            },),
+
+            ElevatedButton(onPressed: () {
+              if(formKey.currentState!.validate()){
+                // navigator
+              }
+            }, child: Text("Save changes"))
+          ],
+        ),
       ),
     );
   }
+
 }
 
 
 
-
+void main(){
+  var a = 1;
+  while(a<=10){
+    print(a);
+    a++;
+  }
+  // do while
+  var b = 100;
+  do{
+    if(a%2==0){
+    print(b);
+    b++;
+  }while(b<=10);
+}
 
 
 
