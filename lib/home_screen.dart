@@ -1,5 +1,7 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_basic/show_data.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -42,11 +44,18 @@ class _HomeScreenState extends State<HomeScreen> {
               }
             },),
 
-            ElevatedButton(onPressed: () {
+            ElevatedButton(onPressed: ()async {
               if(formKey.currentState!.validate()){
                 // navigator
+                var sharePreference =await SharedPreferences.getInstance(); // object created
+                sharePreference.setString("name_key", nameController.text.toString()); // name stored in share preference
+                sharePreference.setString("email_key", emailController.text.toString());// email stored in share preference
               }
-            }, child: Text("Save changes"))
+            }, child: Text("Save changes")),
+
+            ElevatedButton(onPressed: ()async {
+             Navigator.push(context, MaterialPageRoute(builder: (context) => ShowData(),));
+            }, child: Text("Show Data"))
           ],
         ),
       ),
@@ -54,27 +63,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
 }
-
-
-
-void main(){
-  var a = 1;
-  while(a<=10){
-    print(a);
-    a++;
-  }
-  // do while
-  var b = 100;
-  do{
-    if(a%2==0){
-    print(b);
-    b++;
-  }while(b<=10);
-}
-
-
-
-
 
 
 // GlobalKey | Access widget from outside (like form validation)
