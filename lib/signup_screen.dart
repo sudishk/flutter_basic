@@ -1,85 +1,4 @@
 
-import 'package:flutter/material.dart';
-import 'package:flutter_basic/login_screen.dart';
-import 'package:flutter_basic/profile_screen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
-
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  var nameController = TextEditingController();
-  var passController = TextEditingController();
-  var emailController = TextEditingController();
-  var formKey = GlobalKey<FormState>();
-
-  @override
-  Widget build(BuildContext context) {
-
-    return Scaffold(
-      body: Form(
-        key: formKey,
-        child: Column(
-          children: [
-            TextFormField(controller: nameController, decoration: InputDecoration(hint: Text("Enter name")),validator: (value) {
-              if(value!.isEmpty  ){
-                return "Please enter name";
-              }
-            },),
-
-            TextFormField(controller: emailController, decoration: InputDecoration(hint: Text("Enter name")),validator: (value) {
-               bool emailValid = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                  .hasMatch(value!);
-
-              if(!emailValid ){
-
-                return "Please enter valid email";
-              }
-            },),
-
-            TextFormField(controller: passController, decoration: InputDecoration(hint: Text("Enter Password")),validator: (value) {
-              if(value!.isEmpty  ){
-                return "Please enter password";
-              }
-            },),
-
-            ElevatedButton(onPressed: ()async {
-              if(formKey.currentState!.validate()){
-                // navigator
-                var sharePreference =await SharedPreferences.getInstance(); // object created
-                sharePreference.setString("name_key", nameController.text.toString()); // name stored in share preference
-                sharePreference.setString("email_key", emailController.text.toString());// email stored in share
-                sharePreference.setString("pass_key", passController.text.toString());
-
-              }
-            }, child: Text("Register")),
-
-            ElevatedButton(onPressed: ()async {
-              var sharePreference =await SharedPreferences.getInstance(); // object created
-              var email= sharePreference.getString("email_key");
-              var pass= sharePreference.getString("pass_key");
-              sharePreference.setBool("login_status_key", true);
-
-              if(email == emailController.text.toString() && pass == passController.text.toString()){
-                Navigator.push(context, MaterialPageRoute(builder: (context) =>ProfileScreen() ,));
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Login successfully")));
-
-              }else{
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Login failed")));
-              }
-
-            }, child: Text("Login now"))
-          ],
-        ),
-      ),
-    );
-  }
-
-}
 
 
 // GlobalKey | Access widget from outside (like form validation)
@@ -89,6 +8,12 @@ class _HomeScreenState extends State<HomeScreen> {
 // ObjectKey | Identify widget based on an object
 
 
+import 'package:flutter/material.dart';
+import 'package:flutter_basic/signup_provider.dart';
+import 'package:provider/provider.dart';
+
+import 'login_screen.dart';
+
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
 
@@ -97,15 +22,11 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  bool _obscureText = true;
-  var nameController = TextEditingController();
-  var passController = TextEditingController();
-  var emailController = TextEditingController();
-  var phoneController = TextEditingController();
-  var formKey = GlobalKey<FormState>();
+
 
   @override
   Widget build(BuildContext context) {
+    var provider = Provider.of<SignupProvider>(context, listen: false);
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -144,29 +65,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ],
                 ),
               ),
-              _buildTextField("Company & Business Name", nameController),
-              _buildTextField("Email Address", emailController),
-              _buildTextField("Phone Number",phoneController ),
-              _buildPasswordField(passController),
+              _buildTextField("Company & Business Name", provider.nameController),
+              _buildTextField("Email Address", provider.emailController),
+              _buildTextField("Phone Number",provider.phoneController ),
+              _buildPasswordField(provider.passController),
 
               const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () async {
-                  try {
-                    var sharePreference = await SharedPreferences
-                        .getInstance(); // object created
-                   await sharePreference.setString("name_key", nameController.text
-                        .toString()); // name stored in share preference
-                   await sharePreference.setString("email_key", emailController.text
-                        .toString()); // email stored in share
-                   await sharePreference.setString(
-                        "pass_key", passController.text.toString());
-                    ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text("Signup successfully")));
-                  }catch(error) {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Signup failed $error")));
-
-                  }
+                  provider.signup(context);
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blue[700],
@@ -247,28 +154,31 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  Widget _buildPasswordField(TextEditingController controller) {
+  Widget _buildPasswordField(TextEditingController controller,) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
-      child: TextField(
-        controller: controller,
-        obscureText: _obscureText,
-        decoration: InputDecoration(
-          labelText: "Password",
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(6),
-          ),
-          suffixIcon: IconButton(
-            icon: Icon(
-              _obscureText ? Icons.visibility_off : Icons.visibility,
+      child: Consumer<SignupProvider>(
+        builder: (context, provider, child) {
+          return TextField(
+            controller: controller,
+            obscureText:  provider.obscureText,
+            decoration: InputDecoration(
+              labelText: "Password",
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(6),
+              ),
+              suffixIcon: IconButton(
+                icon: Icon(
+                  provider.obscureText ? Icons.visibility_off : Icons.visibility,
+                ),
+                onPressed: () {
+                  provider.showOrHidePassword();
+                },
+              ),
             ),
-            onPressed: () {
-              setState(() {
-                _obscureText = !_obscureText;
-              });
-            },
-          ),
-        ),
+          );
+        },
+
       ),
     );
   }
