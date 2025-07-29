@@ -32,8 +32,8 @@ class _SplashScreenState extends State<SplashScreen> {
       const platform = MethodChannel('com.example.flutter_basic/getBatteryLevel');
 
       // Call native method and pass arguments (optional)
-      final int result = await platform.invokeMethod('getBatteryLevel');
-      print('Battery level: $result');
+      final int response = await platform.invokeMethod('getBatteryLevel');
+      print('Battery level: $response');
     } on PlatformException catch (e) {
       print("Failed: '${e.message}'.");
     }

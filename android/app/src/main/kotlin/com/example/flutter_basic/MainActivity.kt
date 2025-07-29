@@ -3,9 +3,19 @@ package com.example.flutter_basic
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
+import io.flutter.plugin.common.MethodChannel.MethodCallHandler
+import io.flutter.plugin.common.MethodCall
+import android.content.Context
+import android.content.ContextWrapper
+import android.content.Intent
+import android.content.IntentFilter
+import android.os.BatteryManager
+import android.os.Build.VERSION
+import android.os.Build.VERSION_CODES
 
 class MainActivity : FlutterActivity() {
     private val CHANNEL = "com.example.flutter_basic/getBatteryLevel"
+    private val CHANNEL1 = "com.example.flutter_basic/secondTask"
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
@@ -16,15 +26,44 @@ class MainActivity : FlutterActivity() {
         ).setMethodCallHandler { call, result ->
             if (call.method == "getBatteryLevel") {
                 val batteryLevel = getBatteryLevel()
-                result.success(batteryLevel)
-            } else {
+                if(batteryLevel== -1){
+                    result.error("UNAVAILABLE", "Battery level not available.", null)
+
+                }else{
+                    result.success(batteryLevel)
+                }
+
+            } else{
+                    result.notImplemented()
+                }
+            }
+
+        MethodChannel(
+            flutterEngine.dartExecutor.binaryMessenger,
+            CHANNEL1
+        ).setMethodCallHandler { call, result ->
+            if (call.method == "secondTask") {
+                val secondTask = getSecondTask()
+                result.success(secondTask)
+            } else{
                 result.notImplemented()
             }
         }
-    }
+        }
+
+fun  getSecondTask(): String {
+    return  "Ac Fitting"
+}
+
 
     private fun getBatteryLevel(): Int {
-
-        return 50
+        val batteryLevel: Int = if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
+            val batteryManager = getSystemService(Context.BATTERY_SERVICE) as BatteryManager
+            batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
+        } else {
+            val intent = ContextWrapper(applicationContext).registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+            intent!!.getIntExtra(BatteryManager.EXTRA_LEVEL, -1) * 100 / intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1)
+        }
+        return batteryLevel
     }
 }
