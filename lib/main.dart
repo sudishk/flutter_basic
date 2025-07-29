@@ -8,7 +8,7 @@ void main(){
       MultiProvider(providers: [
         ChangeNotifierProvider(create: (context) => HomePageProvider(),),
         StreamProvider(create: (context) =>HomePageProvider.getCounter(), initialData: 0),
-        FutureProvider(create: (context) => HomePageProvider.fetchName(), initialData: "Data Loading")
+        FutureProvider(create: (context) => HomePageProvider.fetchName(), initialData: GetNameModel(name: "Loading"))
       ],
       child:MyApp() ,)
       );
@@ -31,13 +31,16 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    var name = Provider.of<String>(context);
+    var getNameModel = Provider.of<GetNameModel>(context);
     var counter = Provider.of<int>(context);
     return SafeArea(child: Scaffold(
       body: Column(
         children: [
-          Text(name),
+          Text(getNameModel.name),
           Text("$counter"),
+          Consumer<GetNameModel>(builder: (context, value, child) {
+            return Text(value.name);
+          },),
           Consumer<HomePageProvider>(builder: (context, value, child) {
             return Text("${value.age}");
           },),

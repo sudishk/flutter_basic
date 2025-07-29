@@ -16,7 +16,6 @@ class _ProductScreenState extends State<ProductScreen> {
       child: Scaffold(
         body: Column(
           children: [
-
             StreamBuilder(stream: getCounterData(), builder: (context, snapshot) {
               return Text("${snapshot.data}");
             },)

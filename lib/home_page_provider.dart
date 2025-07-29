@@ -7,13 +7,18 @@ class HomePageProvider extends ChangeNotifier{
   age =25;
   notifyListeners();
  }
- static Future<String> fetchName()async{
+ static Future<GetNameModel> fetchName()async{
   await Future.delayed(Duration(seconds:  2));
-  return "Sudish kumar";
+  return GetNameModel(name:  "Sudish kumar");
  }
 
  static Stream<int> getCounter(){
-  return Stream.periodic(Duration(seconds: 3), (computationCount) => computationCount+1,);
+  return Stream.periodic(Duration(seconds: 3), (computationCount) => computationCount-5,);
  }
 }
 
+
+class GetNameModel{
+ final String name;
+ GetNameModel({required this.name});
+}
