@@ -2,9 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_basic/login_screen.dart';
 import 'package:flutter_basic/profile_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -17,13 +19,25 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
 
+    callNativeMethod();
     // Delay for 3 seconds then navigate
-    Timer(Duration(seconds: 3), () {
-      getData();
-
-    });
+    // Timer(Duration(seconds: 3), () {
+    //   // getData();
+    //
+    // });
   }
 
+  Future<void> callNativeMethod() async {
+    try {
+      const platform = MethodChannel('com.example.flutter_basic/getBatteryLevel');
+
+      // Call native method and pass arguments (optional)
+      final int result = await platform.invokeMethod('getBatteryLevel');
+      print('Battery level: $result');
+    } on PlatformException catch (e) {
+      print("Failed: '${e.message}'.");
+    }
+  }
   getData()async{
     var sharePreference =await SharedPreferences.getInstance(); // object created
     bool status = sharePreference.getBool("login_status_key")??false;

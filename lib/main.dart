@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_basic/login_provider.dart';
 import 'package:flutter_basic/login_screen.dart';
 import 'package:flutter_basic/signup_provider.dart';
 import 'package:flutter_basic/signup_screen.dart';
@@ -17,7 +18,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => SignupProvider(),)
+        ChangeNotifierProvider(create: (context) => SignupProvider(),),
+        ChangeNotifierProvider(create: (context) => LoginProvider(),)
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

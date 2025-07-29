@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_basic/login_provider.dart';
 import 'package:flutter_basic/profile_screen.dart';
 import 'package:flutter_basic/signup_screen.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -11,12 +13,11 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passController = TextEditingController();
-  bool _obscurePassword = true;
+
 
   @override
   Widget build(BuildContext context) {
+    var provider = Provider.of<LoginProvider>(context, listen: false);
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -57,7 +58,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
               // Email TextField
               TextField(
-                controller: emailController,
+                controller: provider.emailController,
                 decoration: InputDecoration(
                   prefixIcon: const Icon(Icons.email_outlined),
                   hintText: "Email",
@@ -69,28 +70,31 @@ class _LoginScreenState extends State<LoginScreen> {
               const SizedBox(height: 16),
 
               // Password TextField
-              TextField(
-                controller: passController,
-                obscureText: _obscurePassword,
-                decoration: InputDecoration(
-                  hintText: "Password",
-                  prefixIcon: const Icon(Icons.lock_outline),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      _obscurePassword
-                          ? Icons.visibility_off
-                          : Icons.visibility,
+              Consumer<LoginProvider>(
+                builder: (context, value, child) {
+                  return TextField(
+                    controller: provider.passController,
+                    obscureText: provider.obscurePassword,
+                    decoration: InputDecoration(
+                      hintText: "Password",
+                      prefixIcon: const Icon(Icons.lock_outline),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          provider.obscurePassword
+                              ? Icons.visibility_off
+                              : Icons.visibility,
+                        ),
+                        onPressed: () {
+                          provider.updatePasswordShowHide();
+                        },
+                      ),
                     ),
-                    onPressed: () {
-                      setState(() {
-                        _obscurePassword = !_obscurePassword;
-                      });
-                    },
-                  ),
-                ),
+                  );
+                },
+
               ),
               const SizedBox(height: 8),
 
@@ -109,22 +113,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
               ElevatedButton(
                 onPressed: () async {
-                  // Your login logic here
-                  var sharePreference =await SharedPreferences.getInstance(); // object created
-                  var email= sharePreference.getString("email_key");
-                  var pass= sharePreference.getString("pass_key");
-                  print(email);
-                  print(pass);
-                  print(emailController.text.toString());
-                  print(passController.text.toString());
-                  if(email == emailController.text.toString() && pass == passController.text.toString()){
-                    sharePreference.setBool("login_status_key", true);
-                    Navigator.push(context, MaterialPageRoute(builder: (context) =>ProfileScreen() ,));
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Login successfully")));
 
-                  }else{
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Login failed")));
-                  }
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blue[700],
