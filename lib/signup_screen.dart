@@ -9,7 +9,7 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:flutter_basic/signup_provider.dart';
+import 'package:flutter_basic/auth_provider.dart';
 import 'package:provider/provider.dart';
 
 import 'login_screen.dart';
@@ -26,7 +26,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var provider = Provider.of<SignupProvider>(context, listen: false);
+    var provider = Provider.of<AuthProvider>(context, listen: false);
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -157,11 +157,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget _buildPasswordField(TextEditingController controller,) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
-      child: Consumer<SignupProvider>(
+      child: Consumer<AuthProvider>(
         builder: (context, provider, child) {
           return TextField(
             controller: controller,
-            obscureText:  provider.obscureText,
+            obscureText:  provider.obscurePassword,
             decoration: InputDecoration(
               labelText: "Password",
               border: OutlineInputBorder(
@@ -169,10 +169,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
               suffixIcon: IconButton(
                 icon: Icon(
-                  provider.obscureText ? Icons.visibility_off : Icons.visibility,
+                  provider.obscurePassword ? Icons.visibility_off : Icons.visibility,
                 ),
                 onPressed: () {
-                  provider.showOrHidePassword();
+                  provider.updatePasswordShowHide();
                 },
               ),
             ),

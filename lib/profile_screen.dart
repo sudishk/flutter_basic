@@ -1,6 +1,8 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:flutter_basic/auth_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -11,23 +13,13 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  String name="";
-  String email="";
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    getData();
 
-  }
-
-  getData()async{
-    var sharePreference =await SharedPreferences.getInstance(); // object created
-    name = sharePreference.getString("name_key").toString();
-    email = sharePreference.getString("email_key").toString();
-    setState(() {
-
-    });
+    Provider.of<AuthProvider>(context, listen: false).getData();
   }
 
   @override
@@ -85,8 +77,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
           const SizedBox(height: 24),
 
           // TextFields
-          _buildTextField(name),
-          _buildTextField(email),
+          Consumer<AuthProvider>(builder: (context, value, child) {
+            return  _buildTextField(value.name);
+          },),
+
+          Consumer<AuthProvider>(builder: (context, value, child) {
+            return  _buildTextField(value.email);
+          },),
           _buildTextField("+880 1767 432445"),
           _buildTextField("Maan Store"),
           _buildTextField("Fashion Store"),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_basic/login_provider.dart';
+import 'package:flutter_basic/auth_provider.dart';
 import 'package:flutter_basic/profile_screen.dart';
 import 'package:flutter_basic/signup_screen.dart';
 import 'package:provider/provider.dart';
@@ -17,7 +17,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var provider = Provider.of<LoginProvider>(context, listen: false);
+    var provider = Provider.of<AuthProvider>(context, listen: false);
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -70,7 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
               const SizedBox(height: 16),
 
               // Password TextField
-              Consumer<LoginProvider>(
+              Consumer<AuthProvider>(
                 builder: (context, value, child) {
                   return TextField(
                     controller: provider.passController,
@@ -113,7 +113,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
               ElevatedButton(
                 onPressed: () async {
-
+                  provider.login(context);
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blue[700],
@@ -152,6 +152,7 @@ class _LoginScreenState extends State<LoginScreen> {
               Center(
                 child: TextButton(
                   onPressed: () {
+                    provider.login(context);
                     // Navigate to register
                     Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpScreen(),));
 
