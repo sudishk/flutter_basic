@@ -15,7 +15,7 @@ class AuthProvider with ChangeNotifier {
   void login(BuildContext context)async{
     var sharePreference =await SharedPreferences.getInstance(); // object created
     var email= sharePreference.getString("email_key");
-    var pass= sharePreference.getString("pass_key");
+    var pass= sharePreference.getString("password_key");
     if(email == emailController.text.toString() && pass == passController.text.toString()){
       sharePreference.setBool("login_status_key", true);
       Navigator.push(context, MaterialPageRoute(builder: (context) =>ProfileScreen() ,));
