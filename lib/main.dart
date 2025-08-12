@@ -1,10 +1,15 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_basic/to_do_provider.dart';
+import 'package:flutter_basic/to_do_screen.dart';
+import 'package:provider/provider.dart';
 
 void main(){
-  runApp(MyApp());
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (context) => ToDoProvider(),)
+  ],
+  child: MyApp(),));
 }
-
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -12,42 +17,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        body: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            spacing: 50,
-            children: [
-              Row(
-                spacing: 100,
-                children: [
-                  Text("Sudish"),
-                  Text("Sudish"),
-                ],
-              ),
-              Row(
-                spacing: 100,
-
-                children: [
-                Text("Sudish"),
-                Text("Sudish"),
-              ],),
-
-              Text("Sudish"),
-              Text("Sudish"),
-              Text("Sudish"),
-              Text("Sudish"),
-              Icon(Icons.person),
-              TextField(decoration: InputDecoration(hintText: "Enter name"),),
-              // Image.network("src"),
-              ElevatedButton(onPressed: () {
-
-              }, child: Text("Click me"))
-
-            ],
-          ),
-        ),
-      ),
+      home: ToDoScreen(),
     );
   }
 }
+
