@@ -8,7 +8,7 @@ static Future<void> getDataBase()async{
       var dbPath =await getDatabasesPath();
       var addDataBaseName = join(dbPath , "edugaonPatna.db");
       database = await openDatabase(addDataBaseName, version: 1, onCreate: (db, version) {
-         db.execute("CREATE TABLE students(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, email TEXT)");
+         db.execute("CREATE TABLE students(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, email TEXT, profile_pic TEXT)");
       },);
     }
   }
