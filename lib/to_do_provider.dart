@@ -6,11 +6,12 @@ class ToDoProvider with ChangeNotifier{
   TextEditingController emailController= TextEditingController();
   int? studentId;
   List<Map<String, dynamic>> students = [];
-  XFile? selectedImage;
+  XFile? selectedImage;//step-1
   void newAdmission()async{
     var student = {
       "name" : nameController.text.toString(),
-      "email": emailController.text.toString()
+      "email": emailController.text.toString(),
+      "profile_pic": selectedImage?.path // step -3
     };
     studentId =await DbHelper.insertStudents(student);
     // notifyListeners();
@@ -27,7 +28,7 @@ class ToDoProvider with ChangeNotifier{
   }
 
   Future<void> selectImage()async{
-    selectedImage =await ImagePicker().pickImage(source: ImageSource.gallery);
+    selectedImage =await ImagePicker().pickImage(source: ImageSource.gallery); // step 2
     notifyListeners();
   }
 }

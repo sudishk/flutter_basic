@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/to_do_provider.dart';
 import 'package:provider/provider.dart';
@@ -35,7 +37,15 @@ class _ToDoScreenState extends State<ToDoScreen> {
              Consumer<ToDoProvider>(builder: (context, value, child) {
                return Text(" student roll-no:- ${value.studentId}");
              },),
-
+             Consumer<ToDoProvider>(builder: (context, value, child) {
+               if(value.selectedImage == null) {
+                 return Icon(Icons.browse_gallery_outlined);
+               }
+               return Image.file(File("${value.selectedImage?.path}"));
+             },),
+             ElevatedButton(onPressed: () {
+               provider.selectImage();
+             }, child: Text("Pick image")),
              SizedBox(
                height: 400,
                child: Consumer<ToDoProvider>(builder: (context, value, child) {
@@ -47,7 +57,7 @@ class _ToDoScreenState extends State<ToDoScreen> {
                    itemCount: value.students.length,
                    itemBuilder: (context, index) {
                    var student = value.students[index];
-                   return Text("${student["name"]}, ${student["email"]}");
+                   return ListTile(title: Image.file(File("${student["profile_pic"]}")),subtitle: Text("${student["name"]}, ${student["email"]}"),);
                  },);
 
                },),
