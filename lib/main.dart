@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_basic/api_services.dart';
 
 void main(){
   runApp(MyApp());
@@ -13,41 +14,17 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            spacing: 50,
-            children: [
-              Row(
-                spacing: 100,
-                children: [
-                  Text("Sudish"),
-                  Text("Sudish"),
-                ],
-              ),
-              Row(
-                spacing: 100,
+        body: FutureBuilder(future: ApiServices.getAllPostList(), builder: (context, snapshot) {
 
-                children: [
-                Text("Sudish"),
-                Text("Sudish"),
-              ],),
-
-              Text("Sudish"),
-              Text("Sudish"),
-              Text("Sudish"),
-              Text("Sudish"),
-              Icon(Icons.person),
-              TextField(decoration: InputDecoration(hintText: "Enter name"),),
-              // Image.network("src"),
-              ElevatedButton(onPressed: () {
-
-              }, child: Text("Click me"))
-
-            ],
-          ),
-        ),
-      ),
+          if(snapshot.connectionState == ConnectionState.waiting){
+            return Center(child: CircularProgressIndicator(),);
+          }else if(snapshot.hasError){
+            return Text("Error");
+          }else {
+            return Text(snapshot.data.toString());
+          }
+        },),
+      )
     );
   }
 }
