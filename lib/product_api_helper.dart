@@ -5,10 +5,16 @@ import 'package:http/http.dart' as http;
 class ProductApiHelper {
  static Future<List<ProductModel>?> getAllProductApiData()async{
     var response =await http.get(Uri.parse("https://fakestoreapi.com/products"));
+    // var postMethodResponse =await http.post(Uri.parse("https://fakestoreapi.com/products"), headers: {},body: {});
+    // var putMethodResponse =await http.put(Uri.parse("https://fakestoreapi.com/products"),headers: {},body: {});
+    // var patchMethodResponse =await http.patch(Uri.parse("https://fakestoreapi.com/products"),headers: {},body: {});
+    // var deleteMethodResponse =await http.delete(Uri.parse("https://fakestoreapi.com/products"),headers: {},body: {});
     if(response.statusCode == 200){
       var resBody = response.body;
-      List<dynamic> jsonBody = jsonDecode(resBody);
-      var convertToModel = jsonBody.map((e) =>ProductModel.jsonToModel(e),).toList();
+      var json = {'name': 'ram', 'age':23};
+      var jsonString = jsonEncode(json);
+      List<dynamic> jsonBody = jsonDecode(resBody); // convert String data to json for taking value in key and vale
+      var convertToModel = jsonBody.map((e) =>ProductModel.jsonToModel(e),).toList(); // converting map
 
       return convertToModel;
     }
