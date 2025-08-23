@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/product_api_helper.dart';
 import 'package:flutter_basic/product_model.dart';
+import 'package:flutter_basic/test_city_model.dart';
 
 class ProductProvider with ChangeNotifier{
 
@@ -11,7 +12,13 @@ class ProductProvider with ChangeNotifier{
   var categoryController= TextEditingController();
   var imageController= TextEditingController();
   List<ProductModel> productList=[];
+  TestCty? testCty;
 
+  getTestCity()async{
+    var city =await ProductApiHelper.getTestCity();
+    testCty = city;
+    notifyListeners();
+  }
   getProduct()async{
     var products =await ProductApiHelper.getAllProductApiData();
     if(products != null){
@@ -29,7 +36,7 @@ class ProductProvider with ChangeNotifier{
       "category": categoryController.text,
       "image": imageController.text
     };
-    var response = await ProductApiHelper.postProductApiData(data);
+    var response = await ProductApiHelper.postProductApiData();
     if(response != null){
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Data added successfully")));
       getProduct();

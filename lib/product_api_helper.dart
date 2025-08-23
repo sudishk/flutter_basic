@@ -1,28 +1,64 @@
 import 'dart:convert';
 
 import 'package:flutter_basic/product_model.dart';
+import 'package:flutter_basic/test_city_model.dart';
 import 'package:http/http.dart' as http;
 class ProductApiHelper {
+  static Future<TestCty?> getTestCity()async{
+    var result =await http.post(Uri.parse("https://superastrologer.com/Testcitty/index"),
+        body:  jsonEncode({"key":"abc"}), headers: {"auth": "Bearer: b91cc1e43370911555e55ead1706eb78"} );
+   if(result.statusCode==200) {
+     var jsonBody = jsonDecode(result.body);
+     var jsonModel = TestCty.jsonToModel(jsonBody);
+     return jsonModel;
+   }
+   return null;
+  }
  static Future<List<ProductModel>?> getAllProductApiData()async{
-    var response =await http.get(Uri.parse("https://fakestoreapi.com/products"));
-    // var postMethodResponse =await http.post(Uri.parse("https://fakestoreapi.com/products"), headers: {},body: {});
-    // var putMethodResponse =await http.put(Uri.parse("https://fakestoreapi.com/products"),headers: {},body: {});
-    // var patchMethodResponse =await http.patch(Uri.parse("https://fakestoreapi.com/products"),headers: {},body: {});
-    // var deleteMethodResponse =await http.delete(Uri.parse("https://fakestoreapi.com/products"),headers: {},body: {});
-    if(response.statusCode == 200){
-      var resBody = response.body;
-      var json = {'name': 'ram', 'age':23};
-      var jsonString = jsonEncode(json);
-      List<dynamic> jsonBody = jsonDecode(resBody); // convert String data to json for taking value in key and vale
-      var convertToModel = jsonBody.map((e) =>ProductModel.jsonToModel(e),).toList(); // converting map
-
-      return convertToModel;
-    }
-    return null;
+   var result =await http.get(Uri.parse("https://fakestoreapi.com/products"),);
+   if(result.statusCode==200){
+     var reyBoy=result.body;
+     List<dynamic> json=jsonDecode(reyBoy);
+     var jsnModal=json.map((e) => ProductModel.jsonToModel(e)).toList();
+     return jsnModal;
+     
+   }
+   return null;
   }
 
- static Future<ProductModel?> postProductApiData(Map<String, dynamic> data)async{
-   var response =await http.post(Uri.parse("https://fakestoreapi.com/products"),body: data);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ static Future<ProductModel?> postProductApiData()async{
+   var data = {"key":"abc"};
+   var response =await http.post(Uri.parse("https://fakestoreapi.com/products"),body: data, headers: {"auth":"Bearer: b91cc1e43370911555e55ead1706eb78"});
    print(response.body);
    if(response.statusCode == 201){
      var resBody = response.body;

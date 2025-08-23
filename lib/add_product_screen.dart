@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_basic/product_provider.dart';
 import 'package:provider/provider.dart';
 
+import 'app_widgets.dart';
+
 class AddProductScreen extends StatefulWidget {
   const AddProductScreen({super.key});
 
@@ -20,17 +22,19 @@ class _AddProductScreenState extends State<AddProductScreen> {
         ),
          body: Column(
            children: [
-             TextField(controller: provider.titleController, decoration: InputDecoration(hintText: "Title"),),
-             TextField(controller: provider.priceController, decoration: InputDecoration(hintText: "Price"),),
-             TextField(controller: provider.descriptionController, decoration: InputDecoration(hintText: "Description"),),
-             TextField(controller: provider.categoryController, decoration: InputDecoration(hintText: "Category"),),
-             TextField(controller: provider.imageController, decoration: InputDecoration(hintText: "Image"),),
-             ElevatedButton(onPressed: () {
+             customTextField( provider.titleController, "Title",Icons.title),
+             halfTextField( provider.priceController,  "Price",context),
+             customTextField( provider.descriptionController,"Description",Icons.discord_rounded),
+             customTextField(provider.categoryController,"Category",Icons.category),
+             customTextField( provider.imageController, "Image",Icons.image),
+             customeBtton( () {
                provider.addProduct(context);
-             }, child: Text("Add Now"))
+             }, "Add Now")
            ],
          ),
       ),
     );
   }
+
+
 }
