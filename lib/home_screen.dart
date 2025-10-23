@@ -20,7 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
 
   var nameController = TextEditingController();
-
+  int updateIndex = 0;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -41,18 +41,44 @@ class _HomeScreenState extends State<HomeScreen> {
         body: Column(
           children: [
             TextField(controller: nameController),
+            ElevatedButton(onPressed: () {
+              nameList.add(nameController.text);
+              setState(() {
+
+              });
+            }, child: Text("Add Name")),
+            ElevatedButton(onPressed: () {
+              nameList[updateIndex] = nameController.text;
+
+              setState(() {
+
+              });
+            }, child: Text("Update Name")),
             Container(
-              height: 200,
-              child: ListView.separated(
-                scrollDirection: Axis.horizontal,
+              height: 400,
+              child: ListView.builder(
+                scrollDirection: Axis.vertical,
                 physics: BouncingScrollPhysics(),
-                separatorBuilder: (context, index) {
-                  return Container(color: Colors.green, height: 100, width: 200,);
-                },
+
                 itemCount: nameList.length,
                 itemBuilder: (context, index) {
                   var name = nameList[index];
-                  return Text(name);
+                  return ListTile(title: Text(name), trailing: Container(width: 100, child: Row(children: [
+                    IconButton(onPressed: () {
+                      nameController.text = nameList[index];
+                      updateIndex = index;
+                      setState(() {
+
+                      });
+                    }, icon: Icon(Icons.edit)),
+
+                    IconButton(onPressed: () {
+                      nameList.removeAt(index);
+                      setState(() {
+
+                      });
+                    }, icon: Icon(Icons.delete)),
+                  ],)),);
                 },
               ),
             ),
