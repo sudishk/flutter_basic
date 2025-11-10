@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../data/datasources/login_remote_data_source.dart';
+import '../../data/repositories/login_repository_impl.dart';
+import '../../domain/usecases/login_user.dart';
 import '../view_model/login_viewmodel.dart';
 
 class LoginPage extends StatelessWidget {
@@ -9,12 +12,16 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final vm = Provider.of<LoginViewModel>(context);
+    final dataSource = LoginRemoteDataSource();
+    final repository = LoginRepositoryImpl(dataSource);
+    final useCase = LoginUser(repository);
 
     return Scaffold(
       appBar: AppBar(title: Text("Login")),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
+        child:
+        Column(
           children: [
             TextField(
               controller: emailController,
