@@ -39,6 +39,9 @@ dependencies:
   razorpay_flutter: ^1.4.0
   firebase_core: ^4.2.1
   firebase_app_check: ^0.4.1+2
+  get_it: ^9.2.0
+  bloc: ^9.1.0
+  flutter_bloc: ^9.1.1
 
 dev_dependencies:
   flutter_test:

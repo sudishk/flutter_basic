@@ -1,23 +1,23 @@
-import 'dart:async';
-import 'dart:isolate';
 
-import 'package:flutter/foundation.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_basic/core/di/injection.dart';
+import 'package:flutter_basic/features/auth/presentation/pages/login_page.dart';
+import 'package:flutter_basic/features/auth/presentation/pages/register_page.dart';
 
 void main()async{
-
-  final upload =await compute(uploadImage, 1);
-  print(upload);
+  init();
+  runApp(MyApp());
 }
 
-int uploadImIage(int a){
-  int count = 0;
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
-  Timer.periodic(Duration(seconds: a), (timer) {
-    count++;
-    if(count==10){
-      timer.cancel();
-    }
-
-  },);
-  return count;
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: RegisterPage(),
+    );
+  }
 }
+
