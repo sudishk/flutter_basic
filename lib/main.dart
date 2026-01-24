@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:riverpod/legacy.dart';
-import 'package:riverpod/riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
+
+final counterProvider = StateProvider<int>((ref) => 0);
 
 void main() {
-  runApp(MyApp());
+  runApp(
+    const ProviderScope(
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -11,26 +17,39 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: HomeScreen(),
     );
   }
 }
 
-class HomeScreen extends StatelessWidget {
-  final counterProvider = StateProvider<int>((ref) => 0);
-  HomeScreen({super.key});
+class HomeScreen extends ConsumerWidget {
+  const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final count = Provider((ref) => counterProvider,)
-        count.watch(counterProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final count = ref.watch(counterProvider);
 
-    return const Placeholder();
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Riverpod Counter'),
+      ),
+      body: Center(
+        child: Text(
+          count.toString(),
+          style: const TextStyle(
+            fontSize: 40,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          ref.read(counterProvider.notifier).state++;
+        },
+        child: const Icon(Icons.add),
+      ),
+    );
   }
 }
-
-
-
-
-
