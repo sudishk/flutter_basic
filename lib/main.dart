@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 
-final counterProvider = StateProvider<int>((ref) => 0);
+import 'counter_notifier.dart';
+import 'counter_state.dart';
 
+final counterProvider = StateProvider<int>((ref) => 0);
+final counterNotifierProvider = StateNotifierProvider<CounterNotifier, CounterState>((ref) => CounterNotifier(),);
 void main() {
   runApp(
     const ProviderScope(
@@ -29,7 +32,7 @@ class HomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final count = ref.watch(counterProvider);
+    final count = ref.watch(counterNotifierProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -37,7 +40,7 @@ class HomeScreen extends ConsumerWidget {
       ),
       body: Center(
         child: Text(
-          count.toString(),
+          count.count.toString(),
           style: const TextStyle(
             fontSize: 40,
             fontWeight: FontWeight.bold,
@@ -46,7 +49,7 @@ class HomeScreen extends ConsumerWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          ref.read(counterProvider.notifier).state++;
+         ref.read(counterNotifierProvider.notifier).incrementCounter();
         },
         child: const Icon(Icons.add),
       ),
